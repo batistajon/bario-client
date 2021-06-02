@@ -1,0 +1,8 @@
+{
+  "name": "bario-client",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue",
+  "id": "3504aacf"
+}
