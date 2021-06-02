@@ -16,3 +16,9 @@ export default defineComponent({
   }
 });
 </script>
+<style scoped>
+@font-face {
+    font-family:'Fashion Fetish Heavy';
+    src:url("/resource/Fashion Fetish Heavy.ttf");
+}
+</style>
