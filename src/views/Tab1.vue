@@ -11,8 +11,20 @@
     </ion-header>
       <ion-header collapse="condense">
         <ion-toolbar id="titleImage">
-          <a href=""><img width="150" src="https://bariocafes.com.br/wp-content/uploads/2020/06/200615-logo-positivo-300px.png" alt=""></a>
+          <a id="barioLogo" href="/tabs/tab1"><img width="150" src="https://bariocafes.com.br/wp-content/uploads/2020/06/200615-logo-positivo-300px.png" alt=""></a>
+          <ion-searchbar></ion-searchbar>
         </ion-toolbar>
+        <ion-segment value="favorite">
+        <ion-segment-button value="call">
+          <ion-label>Call</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="favorite">
+          <ion-label>Favorite</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="map">
+          <ion-label>Map</ion-label>
+        </ion-segment-button>
+      </ion-segment>
       </ion-header>
       <ion-list>
         <div v-for="product in state.products" :key="product.id">
@@ -90,6 +102,9 @@ export default  {
 <style scoped>
   #titleImage{
     text-align: center;
+  };
+  #barioLogo{
+    padding: 50%
   };
   .loading-center {
     display: flex;
