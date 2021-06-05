@@ -26,8 +26,16 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'tab3',
         component: () => import('@/views/Tab3.vue')
+      },
+      {
+        path: 'tab4',
+        component: () => import('@/views/Tab4.vue')
       }
     ]
+  },
+  {
+    path: '/product-add-cart/:id',
+    component: () => import('@/components/ProductAddCart.vue')
   }
 ]
 

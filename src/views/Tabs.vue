@@ -1,25 +1,26 @@
 <template>
   <ion-page>
-    <ion-tabs>
-      <ion-tab-bar slot="bottom"  id="baseBar">
-        <ion-tab-button id="tab1Button" tab="tab1" href="/tabs/tab1">
-          <ion-icon :icon="cafeOutline" />
-          <ion-label>Cafés Especiais</ion-label>
+    <ion-tabs> 
+      <ion-tab-bar color="secondary" slot="bottom"  id="baseBar">
+        <ion-tab-button tab="tab1" href="/tabs/tab1">
+          <ion-icon :icon="storefrontOutline" />
+          <ion-label>Loja</ion-label>
         </ion-tab-button>
           
         <ion-tab-button tab="tab2" href="/tabs/tab2">
-          <ion-icon :icon="cubeOutline" />
-          <ion-label>Assinatura</ion-label>
+          <ion-icon :icon="pricetagOutline" />
+          <ion-label>Meus cupons</ion-label>
         </ion-tab-button>
 
         <ion-tab-button tab="tab3" href="/tabs/tab3">
-          <ion-icon :icon="bagHandleOutline" />
-          <ion-label>Kits</ion-label>
+          <ion-icon :icon="personOutline" />
+          <ion-label>Perfil</ion-label>
         </ion-tab-button>
         
-        <ion-tab-button tab="ta43" href="/tabs/tab4">
-          <ion-icon :icon="beakerOutline" />
-          <ion-label>Utensilios</ion-label>
+        <ion-tab-button tab="tab4" href="/tabs/tab4">
+        <ion-badge color="primary">11</ion-badge>
+          <ion-icon :icon="cartOutline" />
+          <ion-label>Carrinho</ion-label>
         </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>
@@ -28,17 +29,17 @@
 
 <script lang="ts">
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage } from '@ionic/vue';
-import { cafeOutline, cartOutline, cubeOutline, beakerOutline, bagHandleOutline } from 'ionicons/icons';
+import { storefrontOutline, cartOutline, pricetagOutline, personOutline, bagHandleOutline } from 'ionicons/icons';
 
 export default {
   name: 'Tabs',
   components: { IonLabel, IonTabs, IonTabBar, IonTabButton, IonIcon, IonPage },
   setup() {
     return {
-      cafeOutline, 
+      storefrontOutline, 
       cartOutline,
-      cubeOutline,
-      beakerOutline,
+      pricetagOutline,
+      personOutline,
       bagHandleOutline
     }
   }
@@ -46,7 +47,5 @@ export default {
 </script>
 
 <style scoped>
-ion-page{
-  background: #EFC69B;
-}
+
 </style>
