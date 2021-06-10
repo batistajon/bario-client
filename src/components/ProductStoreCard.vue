@@ -10,7 +10,9 @@
           <ion-item>
             <ion-label>
               <h4><strong>{{product.name}}</strong></h4>
-              <p>{{ inner(product.description) }}</p>
+              <div id="descriptionCard">
+                <p>{{ inner(product.description) }}</p>
+              </div>
             </ion-label>
           </ion-item>
           <div id="priceCard">

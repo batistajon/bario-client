@@ -7,7 +7,7 @@
     </ion-content>
     <ion-content color="secondary" :fullscreen="true" v-else>
     <ion-header>
-      <img id="bannerStore" src="https://bariocafes.com.br/wp-content/uploads/2020/10/201029-bario-site-banner-desktop-02-2.jpg" alt="">
+      <img id="bannerStore" src="https://bariocafes.com.br/wp-content/uploads/2021/06/site-5.png" alt="">
     </ion-header>
       <ion-header collapse="condense">
         <div id="titleImage" style="padding: 10px;">
@@ -21,22 +21,22 @@
           :value="state.categories"
         >
           <ion-segment-button value="16">
-            <ion-label>Cafés</ion-label>
+            <ion-label class="labelSegBtn">Cafés</ion-label>
           </ion-segment-button>
           <ion-segment-button value="199">
-            <ion-label>Cápsulas</ion-label>
+            <ion-label class="labelSegBtn">Cápsulas</ion-label>
           </ion-segment-button>
           <ion-segment-button value="42">
-            <ion-label>Assinatura</ion-label>
+            <ion-label class="labelSegBtn">Assinatura</ion-label>
           </ion-segment-button>
           <ion-segment-button value="228">
-            <ion-label>Kits</ion-label>
+            <ion-label class="labelSegBtn">Kits</ion-label>
           </ion-segment-button>
           <ion-segment-button value="24">
-            <ion-label>Cafeteiras</ion-label>
+            <ion-label class="labelSegBtn">Cafeteiras</ion-label>
           </ion-segment-button>
           <ion-segment-button value="222">
-            <ion-label>Acessorios</ion-label>
+            <ion-label class="labelSegBtn">Acessórios</ion-label>
           </ion-segment-button>
         </ion-segment>
         </ion-header>
@@ -86,7 +86,7 @@ export default  {
         state.loading = true;
       }
 
-      const res = await axios.get(`http://127.0.0.1:8000/api/products/category/${state.categories}`);
+      const res = await axios.get(`https://api.winassessoria.com/api/products/category/${state.categories}`);
       
       if(res.data) {
         state.products = res.data;
@@ -140,6 +140,13 @@ export default  {
   ion-segment-button {
     text-align: center;
     font-weight: bold;
+    margin-left: 5px;
+    margin-right: 5px;
+    width: 200px;
+  }
+  .labelSegBtn {
+    margin-left: 5px;
+    margin-right: 5px;
   }
   ion-segment {
     margin: 5px;

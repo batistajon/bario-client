@@ -24,20 +24,34 @@
             </ion-card-header>
             <ion-card-content id="description">
                 <p>{{inner(state.product.description)}}</p>
-                <div id="buttonCart">
-                    <ion-item>
-                        <ion-icon :icon="addOutline" @click="addOrRemoveCart($event)" value="add"/>
-                        <ion-input 
-                            id="inputCartQtt" 
-                            type="number" 
-                            v-model="state.qtt" 
-                            :value="state.qtt"
-                        ></ion-input>
-                        <ion-icon :icon="removeOutline" @click="addOrRemoveCart($event)" value="remove"/>
-                    </ion-item>
-                </div>
             </ion-card-content>
-          </ion-card>
+            <ion-item v-for="attr in state.product.attributes" :key="attr.id">
+                <ion-label>{{attr.name}}</ion-label>
+                <ion-select>
+                        <ion-select-option v-for="option in attr.options" :key="option" :value="option">{{ option }}</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <ion-item>
+                <ion-label>Quantidade</ion-label>
+                <ion-select value="1" v-model="state.qtt">
+                    <ion-select-option value="1">1</ion-select-option>
+                    <ion-select-option value="2">2</ion-select-option>
+                    <ion-select-option value="3">3</ion-select-option>
+                    <ion-select-option value="4">4</ion-select-option>
+                    <ion-select-option value="5">5</ion-select-option>
+                    <ion-select-option value="6">6</ion-select-option>
+                    <ion-select-option value="7">7</ion-select-option>
+                    <ion-select-option value="8">8</ion-select-option>
+                    <ion-select-option value="9">9</ion-select-option>
+                    <ion-select-option value="10">10</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <div id="divButtonAddCart">
+                <ion-button expand="block">
+                    Adicionar ao carrinho
+                </ion-button>
+            </div>
+        </ion-card>
           
       </ion-content>
   </ion-page>
@@ -69,7 +83,7 @@ export default {
         IonPage,
         IonSpinner,
         IonContent, 
-        IonIcon
+        //IonIcon
     },
     setup() {
         const router = useRouter();
@@ -85,7 +99,7 @@ export default {
         const fetchProductByid = async (id) => {
             state.loading = true;
 
-            const res = await axios.get(`http://127.0.0.1:8000/api/products/${id}`);
+            const res = await axios.get(`https://api.winassessoria.com/api/products/${id}`);
 
             if(res.data) {
                 state.product = res.data
@@ -99,10 +113,9 @@ export default {
             return param.replace(regex, '');
         }
 
-        const addOrRemoveCart = (e) => {
+        const addOrRemoveCart = (param) => {
 
-            state.qtt = e;
-            console.log(state.qtt);
+            console.log(param);
         }
 
         fetchProductByid(product.id); 
@@ -138,11 +151,10 @@ export default {
     text-align: center;
     align-content: center;
   }
-  #buttonCart {
-      width: 120px;
-      margin-top: 10px;
-  }
   #inputCartQtt {
-      text-align: center;
+    text-align: center;
+  }
+  #divButtonAddCart {
+    margin:15px 15px 20px 15px;
   }
 </style>
