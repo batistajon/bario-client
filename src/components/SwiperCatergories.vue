@@ -1,6 +1,6 @@
 <template>
-    <ion-chip id="chipCategory" color="primary" mode="ios" outline="true">
-        <ion-label :categoryid="id">{{ label }}</ion-label>
+    <ion-chip id="chipCategory" outline="true">
+        <ion-label color="primary" :categoryid="id">{{ label }}</ion-label>
     </ion-chip>
 </template>
 

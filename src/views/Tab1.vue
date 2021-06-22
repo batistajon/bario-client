@@ -1,32 +1,29 @@
 <template>
   <ion-page> 
     <ion-content v-if="state.loading">
-      <div id="loading-center">
+      <div class="loading-center">
         <ion-spinner color="lines"></ion-spinner>
       </div>
     </ion-content>
-    <ion-content color="secondary" :fullscreen="true" v-else>
-    <ion-header>
-      <img id="bannerStore" src="https://bariocafes.com.br/wp-content/uploads/2021/06/site-5.png" alt="">
-    </ion-header>
-      <ion-header collapse="condense">
-        <div id="titleImage" style="padding: 10px;">
-          <a href="/tabs/tab1"><img  width="150" src="https://bariocafes.com.br/wp-content/uploads/2020/06/200615-logo-positivo-300px.png" alt=""></a>
-        </div>
-        </ion-header>
-        <ion-list>
-            <div id="categories">
-                <swiper-categories 
-                  v-for="category in state.categories" :key="category.id"
-                  :label="category.name"
-                  :id="category.id"
-                  @click="changeCategory($event)"
-                />
-            </div> 
-          <ion-searchbar placeholder="Procurar produto"></ion-searchbar>
-          <div v-for="product in state.products" :key="product.id">
-          <product-store-card :product="product" />
-        </div>
+    <ion-content :fullscreen="true" v-else>
+      <img
+       id="bannerStore" 
+       src="https://bariocafes.com.br/wp-content/uploads/2021/06/site-5.png"
+      >
+      <ion-list>
+        <div id="categories">
+            <swiper-categories 
+              v-for="category in state.categories" :key="category.id"
+              :label="category.name"
+              :id="category.id"
+              @click="changeCategory($event)"
+            />
+        </div> 
+        <ion-searchbar placeholder="Procurar produto"></ion-searchbar>
+        <product-store-card
+          v-for="product in state.products" :key="product.id"
+          :product="product"
+        />
       </ion-list>
     </ion-content>
   </ion-page>
@@ -35,7 +32,6 @@
 <script lang="ts">
 import { 
   IonPage, 
-  IonHeader, 
   IonContent,
   IonSpinner
   } from '@ionic/vue';
@@ -47,7 +43,6 @@ import SwiperCategories from '@/components/SwiperCatergories.vue';
 export default  {
   name: 'Loja',
   components: { 
-    IonHeader, 
     IonContent, 
     IonPage,
     IonSpinner,
@@ -68,16 +63,12 @@ export default  {
         state.loading = true;
       }
 
-      const res = await axios.get(`https://api.winassessoria.com/api/products/categories`);
-      //const res = await axios.get(`http://127.0.0.1:8000/api/products/categories`);
+      const res = await axios.get(`http://127.0.0.1:8000/api/products/categories`);
 
-      
       if(res.data) {
         state.categories = res.data;
-        console.log(res.data)
+        console.log(res.data);
       }
-
-      state.loading = false;
     }
 
     const fetchOrders = async (dispLoaderPage: boolean) => {
@@ -86,8 +77,7 @@ export default  {
         state.loading = true;
       }
 
-      const res2 = await axios.get(`https://api.winassessoria.com/api/products/category/${state.categoryId}`);
-      //const res2 = await axios.get(`http://127.0.0.1:8000/api/products/category/${state.categoryId}`);
+      const res2 = await axios.get(`http://127.0.0.1:8000/api/products/category/${state.categoryId}`);
 
 
       if(res2.data) {
@@ -131,14 +121,16 @@ export default  {
 </script>
 <style>
   #titleImage{
+    margin-top: 15px;
     text-align: center;
   }
-  #loading-center {
+  .loading-center {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 90vh;
   }
+
   ion-spinner {
     transform: scale(1.5);
   }
