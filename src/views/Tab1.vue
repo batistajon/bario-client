@@ -13,36 +13,18 @@
         <div id="titleImage" style="padding: 10px;">
           <a href="/tabs/tab1"><img  width="150" src="https://bariocafes.com.br/wp-content/uploads/2020/06/200615-logo-positivo-300px.png" alt=""></a>
         </div>
-        <ion-segment 
-          color="primary"
-          scrollable="true" 
-          @ionChange="changeCategory($event)" 
-          v-model="state.categories" 
-          :value="state.categories"
-        >
-          <ion-segment-button value="16">
-            <ion-label class="labelSegBtn">Cafés</ion-label>
-          </ion-segment-button>
-          <ion-segment-button value="199">
-            <ion-label class="labelSegBtn">Cápsulas</ion-label>
-          </ion-segment-button>
-          <ion-segment-button value="42">
-            <ion-label class="labelSegBtn">Assinatura</ion-label>
-          </ion-segment-button>
-          <ion-segment-button value="228">
-            <ion-label class="labelSegBtn">Kits</ion-label>
-          </ion-segment-button>
-          <ion-segment-button value="24">
-            <ion-label class="labelSegBtn">Cafeteiras</ion-label>
-          </ion-segment-button>
-          <ion-segment-button value="222">
-            <ion-label class="labelSegBtn">Acessórios</ion-label>
-          </ion-segment-button>
-        </ion-segment>
         </ion-header>
         <ion-list>
-        <ion-searchbar placeholder="Procurar produto"></ion-searchbar>
-        <div v-for="product in state.products" :key="product.id">
+            <div id="categories">
+                <swiper-categories 
+                  v-for="category in state.categories" :key="category.id"
+                  :label="category.name"
+                  :id="category.id"
+                  @click="changeCategory($event)"
+                />
+            </div> 
+          <ion-searchbar placeholder="Procurar produto"></ion-searchbar>
+          <div v-for="product in state.products" :key="product.id">
           <product-store-card :product="product" />
         </div>
       </ion-list>
@@ -51,16 +33,16 @@
 </template>
 
 <script lang="ts">
-import { IonPage, 
+import { 
+  IonPage, 
   IonHeader, 
   IonContent,
-  IonSpinner,
-  IonSegment,
-  IonSegmentButton
+  IonSpinner
   } from '@ionic/vue';
 import { reactive} from 'vue';
 import axios from 'axios';
-import ProductStoreCard from '@/components/ProductStoreCard.vue'
+import ProductStoreCard from '@/components/ProductStoreCard.vue';
+import SwiperCategories from '@/components/SwiperCatergories.vue';
 
 export default  {
   name: 'Loja',
@@ -70,15 +52,33 @@ export default  {
     IonPage,
     IonSpinner,
     ProductStoreCard,
-    IonSegment,
-    IonSegmentButton
+    SwiperCategories
   },
   setup() {
     const state = reactive({
       products: {},
       loading: false,
-      categories: 16
+      categoryId: 16,
+      categories: {}
     });
+
+    const fetchCategories = async (dispLoaderPage: boolean) => {
+
+      if(dispLoaderPage) {
+        state.loading = true;
+      }
+
+      const res = await axios.get(`https://api.winassessoria.com/api/products/categories`);
+      //const res = await axios.get(`http://127.0.0.1:8000/api/products/categories`);
+
+      
+      if(res.data) {
+        state.categories = res.data;
+        console.log(res.data)
+      }
+
+      state.loading = false;
+    }
 
     const fetchOrders = async (dispLoaderPage: boolean) => {
 
@@ -86,10 +86,12 @@ export default  {
         state.loading = true;
       }
 
-      const res = await axios.get(`https://api.winassessoria.com/api/products/category/${state.categories}`);
-      
-      if(res.data) {
-        state.products = res.data;
+      const res2 = await axios.get(`https://api.winassessoria.com/api/products/category/${state.categoryId}`);
+      //const res2 = await axios.get(`http://127.0.0.1:8000/api/products/category/${state.categoryId}`);
+
+
+      if(res2.data) {
+        state.products = res2.data;
       }
 
       state.loading = false;
@@ -103,20 +105,23 @@ export default  {
       event.target?.complete();      
     }
 
+    fetchCategories(true);
     fetchOrders(true);
 
     const changeCategory = (e: any) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
-      state.categories = e.detail?.value;
+      state.categoryId = e.target.attributes.categoryid.value;
 
-      console.log(state.categories);
+      console.log(e.target.attributes.categoryid.value);
+      //fetchCategories(true);
       fetchOrders(true);
     }
 
     return {
       state, 
       fetchOrders, 
+      fetchCategories,
       doRefresh,
       changeCategory
     }
@@ -150,5 +155,10 @@ export default  {
   }
   ion-segment {
     margin: 5px;
+  }
+  #categories {
+    margin: 10px 10px 0px 10px;
+    overflow: auto;
+    white-space: nowrap;
   }
 </style>
