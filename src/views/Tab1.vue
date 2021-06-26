@@ -19,23 +19,34 @@
               @click="changeCategory($event)"
             />
         </div> 
-        <ion-searchbar placeholder="Procurar produto"></ion-searchbar>
-        <product-store-card
-          v-for="product in state.products" :key="product.id"
-          :product="product"
-        />
+        <ion-searchbar
+          @keyup="resultadoBusca($event.target.value)"
+          placeholder="Digite 3 caracteres " 
+          v-model="state.busca"
+        ></ion-searchbar>
+        <div v-if="state.loadingBusca">
+          <div class="loading-center">
+            <ion-spinner color="lines"></ion-spinner>
+          </div>
+        </div>
+        <div v-else>
+          <product-store-card
+            v-for="product in state.products" :key="product.id"
+            :product="product"
+          />
+        </div>
       </ion-list>
     </ion-content>
   </ion-page>
 </template>
 
-<script lang="ts">
+<script>
 import { 
   IonPage, 
   IonContent,
   IonSpinner
   } from '@ionic/vue';
-import { reactive} from 'vue';
+import { reactive } from 'vue';
 import axios from 'axios';
 import ProductStoreCard from '@/components/ProductStoreCard.vue';
 import SwiperCategories from '@/components/SwiperCatergories.vue';
@@ -51,13 +62,16 @@ export default  {
   },
   setup() {
     const state = reactive({
-      products: {},
+      products: Array,
       loading: false,
       categoryId: 16,
-      categories: {}
+      categories: Array,
+      buscaId: [],
+      busca: String,
+      loadingBusca: false
     });
 
-    const fetchCategories = async (dispLoaderPage: boolean) => {
+    const fetchCategories = async (dispLoaderPage) => {
 
       if(dispLoaderPage) {
         state.loading = true;
@@ -67,11 +81,10 @@ export default  {
 
       if(res.data) {
         state.categories = res.data;
-        console.log(res.data);
       }
     }
 
-    const fetchOrders = async (dispLoaderPage: boolean) => {
+    const fetchOrders = async (dispLoaderPage) => {
 
       if(dispLoaderPage) {
         state.loading = true;
@@ -79,15 +92,15 @@ export default  {
 
       const res2 = await axios.get(`http://127.0.0.1:8000/api/products/category/${state.categoryId}`);
 
-
       if(res2.data) {
         state.products = res2.data;
       }
 
       state.loading = false;
+      //console.log(state.busca)
     }
 
-    const doRefresh = (event: CustomEvent): void => {
+    const doRefresh = (event) => {
       fetchOrders(false);
 
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
@@ -98,14 +111,51 @@ export default  {
     fetchCategories(true);
     fetchOrders(true);
 
-    const changeCategory = (e: any) => {
+    const changeCategory = (e) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
       state.categoryId = e.target.attributes.categoryid.value;
 
-      console.log(e.target.attributes.categoryid.value);
-      //fetchCategories(true);
       fetchOrders(true);
+    }
+
+    const resultadoBusca = async (e) => {
+
+      if(e.length >= 3) {
+
+        state.loadingBusca = true;
+
+        const res3 = await axios.get(`http://127.0.0.1:8000/api/products`);
+
+        if(res3.data) {
+          state.products = res3.data;
+        }
+
+        let element = Object;
+        let result = Boolean;
+
+        for (let i = 0; i < state.products.length; i++) {
+          
+          element = state.products[i];
+          result = element.slug.indexOf(e, -1) > -1;
+
+          if(result) {
+            state.buscaId.push(element.id)
+          }
+        }
+
+        console.log(state.buscaId);
+
+        const res5 = axios.post(`http://127.0.0.1:8000/api/products`, JSON.parse(state.buscaId))
+         
+        if(res5.data) {
+          state.products = res5.data;
+        }
+
+        state.buscaId = [];
+        state.loadingBusca = false;
+        console.log(state.buscaId, 'vazio');
+      }
     }
 
     return {
@@ -113,7 +163,8 @@ export default  {
       fetchOrders, 
       fetchCategories,
       doRefresh,
-      changeCategory
+      changeCategory,
+      resultadoBusca
     }
   }
 }

@@ -99,7 +99,9 @@ export default {
         const fetchProductByid = async (id) => {
             state.loading = true;
 
-            const res = await axios.get(`https://api.winassessoria.com/api/products/${id}`);
+            //const res = await axios.get(`https://api.winassessoria.com/api/products/details/${id}`);
+            const res = await axios.get(`http://127.0.0.1:8000/api/products/details/${id}`);
+
 
             if(res.data) {
                 state.product = res.data
