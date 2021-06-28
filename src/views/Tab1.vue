@@ -77,7 +77,7 @@ export default  {
         state.loading = true;
       }
 
-      const res = await axios.get(`http://127.0.0.1:8000/api/products/categories`);
+      const res = await axios.get(`https://api.winassessoria.com/api/products/categories`);
 
       if(res.data) {
         state.categories = res.data;
@@ -90,7 +90,7 @@ export default  {
         state.loading = true;
       }
 
-      const res2 = await axios.get(`http://127.0.0.1:8000/api/products/category/${state.categoryId}`);
+      const res2 = await axios.get(`https://api.winassessoria.com/api/products/category/${state.categoryId}`);
 
       if(res2.data) {
         state.products = res2.data;
@@ -125,7 +125,7 @@ export default  {
 
         state.loadingBusca = true;
 
-        const res3 = await axios.get(`http://127.0.0.1:8000/api/products`);
+        const res3 = await axios.get(`https://api.winassessoria.com/api/products`);
 
         if(res3.data) {
           state.products = res3.data;
@@ -146,7 +146,7 @@ export default  {
 
         console.log(state.buscaId);
 
-        const res5 = axios.post(`http://127.0.0.1:8000/api/products`, JSON.parse(state.buscaId))
+        const res5 = axios.post(`https://api.winassessoria.com/api/products`, JSON.parse(state.buscaId))
          
         if(res5.data) {
           state.products = res5.data;

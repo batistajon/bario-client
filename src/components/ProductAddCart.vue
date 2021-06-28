@@ -24,11 +24,15 @@
             </ion-card-header>
             <ion-card-content id="description">
                 <p>{{inner(state.product.description)}}</p>
-            </ion-card-content>
+            </ion-card-content> 
             <ion-item v-for="attr in state.product.attributes" :key="attr.id">
                 <ion-label>{{attr.name}}</ion-label>
                 <ion-select>
-                        <ion-select-option v-for="option in attr.options" :key="option" :value="option">{{ option }}</ion-select-option>
+                        <ion-select-option 
+                            v-for="option in attr.options" 
+                            :key="option" 
+                            :value="option">{{ option }}
+                        </ion-select-option>
                 </ion-select>
             </ion-item>
             <ion-item>
@@ -99,9 +103,7 @@ export default {
         const fetchProductByid = async (id) => {
             state.loading = true;
 
-            //const res = await axios.get(`https://api.winassessoria.com/api/products/details/${id}`);
-            const res = await axios.get(`http://127.0.0.1:8000/api/products/details/${id}`);
-
+            const res = await axios.get(`https://api.winassessoria.com/api/products/details/${id}`);
 
             if(res.data) {
                 state.product = res.data
