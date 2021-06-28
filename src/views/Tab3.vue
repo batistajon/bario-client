@@ -6,6 +6,11 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Tab 4</ion-title>
+        </ion-toolbar>
+      </ion-header>
       <ion-card>
         <ion-item>
           <ion-avatar slot="start">
