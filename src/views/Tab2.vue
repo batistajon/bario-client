@@ -1,11 +1,11 @@
 <template>
   <ion-page>
+    <ion-header collapse="condense">
+      <ion-toolbar>
+        <ion-title>Meus Cupons</ion-title>
+      </ion-toolbar>
+    </ion-header>
     <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title>Meus Cupons</ion-title>
-        </ion-toolbar>
-      </ion-header>
       <cupons-card/>
     </ion-content>
   </ion-page>
